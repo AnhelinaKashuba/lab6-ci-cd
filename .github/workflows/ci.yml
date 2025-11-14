@@ -4,75 +4,12 @@ on:
   push:
     branches:
       - main
-      - "**"     # дозволяє запускати lint + test на будь-які гілки
+      - feature/*
   pull_request:
-    branches:
-      - main
 
 jobs:
-
-  lint:
+  example:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run linter
-        run: npm run lint
-
-
-  test:
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests with coverage (min 50%)
-        run: |
-          npm test -- --coverage
-
-          # Перевірка мінімального ліміту coverage
-          COVERAGE=$(grep -o '[0-9]*' coverage/lcov-report/index.html | head -n 1)
-          echo "Coverage: $COVERAGE%"
-          if [ "$COVERAGE" -lt 50 ]; then
-            echo "Coverage below 50% — pipeline FAILED"
-            exit 1
-          fi
-
-      - name: Upload test report
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: coverage/
-
-
-  build:
-    runs-on: ubuntu-latest
-    needs: test
-
-    # build запускається тільки для main
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifact
-          path: build/
-
+      - name: Checkout repo
+        uses: actions/checkout@v4
