@@ -55,13 +55,13 @@ jobs:
           pytest --cov=. --cov-report=xml --cov-fail-under=50 --junitxml=report.xml
 
       - name: Upload coverage report (coverage.xml)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # ЗМІНЕНО: v3 -> v4
         with:
           name: coverage-report
           path: coverage.xml
           
       - name: Upload JUnit test report (report.xml)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # ЗМІНЕНО: v3 -> v4
         with:
           name: test-report
           path: report.xml
@@ -85,7 +85,7 @@ jobs:
         run: echo "Project build successful on main branch!"
 
       - name: Upload build artifact (Simulated)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # ЗМІНЕНО: v3 -> v4
         with:
           name: final-build-artifact
           path: . 
