@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install test dependencies
         run: |
           pip install pytest pytest-cov
 
@@ -45,11 +45,19 @@ jobs:
         run: |
           pytest --cov=. --cov-report=xml --cov-fail-under=50
 
-      - name: Upload test reports
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: coverage.xml
+
+      - name: Upload junit test report (optional)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: report.xml
+
 
   build:
     runs-on: ubuntu-latest
